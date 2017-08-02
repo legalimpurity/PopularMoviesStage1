@@ -12,11 +12,9 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.R;
+import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.objects.MovieObject;
 
-/**
- * Created by rajatkhanna on 01/08/17.
- */
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieItemHolder>{
 
@@ -29,11 +27,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         this.act = act;
     }
 
+    public void setMoviesData(ArrayList<MovieObject> movieObjs)
+    {
+        this.movieObjs = movieObjs;
+        notifyDataSetChanged();
+    }
+
     @Override
     public MovieItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(act).inflate(R.layout.movie_list_item, parent,false);
-        MovieItemHolder movieItemHolderObject = new MovieItemHolder(layoutView);
-        return movieItemHolderObject;
+        return new MovieItemHolder(layoutView);
     }
 
     @Override
@@ -49,16 +52,16 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     public class MovieItemHolder extends RecyclerView.ViewHolder{
 
-        public ImageView posterImage;
+        private ImageView posterImage;
 
-        public MovieItemHolder(View itemView) {
+        private MovieItemHolder(View itemView) {
             super(itemView);
             posterImage = (ImageView) itemView.findViewById(R.id.movie_poster);
         }
 
         void bind(MovieObject mo)
         {
-            Picasso.with(act).load(mo.getMoviePosterImageThumbnailUrl()).into(posterImage);
+            Picasso.with(act).load(NetworkUtils.MOVIES_IMAGE_URL+mo.getMoviePosterImageThumbnailUrl()).into(posterImage);
         }
     }
 }
