@@ -12,9 +12,9 @@ public class MovieObject implements Parcelable {
     private String MoviePosterImageThumbnailUrl;
     private String PlotSynopsis;
     private String UserRating;
-    private Long ReleaseDate;
+    private String ReleaseDate;
 
-    public MovieObject(String orignalTitle, String moviePosterImageThumbnailUrl, String plotSynopsis, String userRating, Long releaseDate) {
+    public MovieObject(String orignalTitle, String moviePosterImageThumbnailUrl, String plotSynopsis, String userRating, String releaseDate) {
         OrignalTitle = orignalTitle;
         MoviePosterImageThumbnailUrl = moviePosterImageThumbnailUrl;
         PlotSynopsis = plotSynopsis;
@@ -54,11 +54,11 @@ public class MovieObject implements Parcelable {
         UserRating = userRating;
     }
 
-    public Long getReleaseDate() {
+    public String getReleaseDate() {
         return ReleaseDate;
     }
 
-    public void setReleaseDate(Long releaseDate) {
+    public void setReleaseDate(String releaseDate) {
         ReleaseDate = releaseDate;
     }
 
@@ -73,10 +73,10 @@ public class MovieObject implements Parcelable {
                 this.OrignalTitle,
                 this.MoviePosterImageThumbnailUrl,
                 this.PlotSynopsis,
-                this.UserRating
+                this.UserRating,
+                this.ReleaseDate
         });
 
-        dest.writeLong(ReleaseDate);
 
     }
 
@@ -91,15 +91,15 @@ public class MovieObject implements Parcelable {
     };
 
     public MovieObject(Parcel in){
-        String[] data = new String[4];
+        String[] data = new String[5];
 
         in.readStringArray(data);
         this.OrignalTitle = data[0];
         this.MoviePosterImageThumbnailUrl = data[1];
         this.PlotSynopsis = data[2];
         this.UserRating = data[3];
+        this.ReleaseDate = data[4];
 
-        ReleaseDate = in.readLong();
     }
 
 }

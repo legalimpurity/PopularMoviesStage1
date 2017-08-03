@@ -9,9 +9,51 @@
     tools:showIn="@layout/activity_movie_detail">
 
 
-    <TextView
-        android:id="@+id/textView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="TextView" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewReleaseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="@string/release_date"/>
+
+        <TextView
+            android:id="@+id/textViewReleaseDateValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Small"/>
+
+        <TextView
+            android:id="@+id/textViewVoteAverage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="@string/vote_average"/>
+
+        <TextView
+            android:id="@+id/textViewVoteAverageValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Small"/>
+
+
+        <TextView
+            android:id="@+id/textViewPlotSynopsis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Large"
+            android:text="@string/plot_synopsis"/>
+
+        <TextView
+            android:id="@+id/textViewPlotSynopsisValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Base.TextAppearance.AppCompat.Small"/>
+
+    </LinearLayout>
+
 </android.support.v4.widget.NestedScrollView>

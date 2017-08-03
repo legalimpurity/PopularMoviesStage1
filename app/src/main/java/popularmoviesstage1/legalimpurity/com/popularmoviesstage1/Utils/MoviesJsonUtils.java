@@ -22,6 +22,7 @@ public class MoviesJsonUtils {
         final String POSTER_URL = "poster_path";
         final String PLOT_SYNOPSIS = "overview";
         final String USER_RATING = "vote_average";
+        final String RELEASE_DATE = "release_date";
 
         ArrayList<MovieObject> parsedMoviesData;
 
@@ -37,7 +38,8 @@ public class MoviesJsonUtils {
                     movieJSONObj.getString(POSTER_URL),
                     movieJSONObj.getString(PLOT_SYNOPSIS),
                     movieJSONObj.getString(USER_RATING),
-                    0l));
+                    movieJSONObj.getString(RELEASE_DATE)
+                    ));
         }
 
         return parsedMoviesData;
