@@ -3,6 +3,7 @@ package popularmoviesstage1.legalimpurity.com.popularmoviesstage1;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -12,11 +13,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import java.net.URL;
 import java.util.ArrayList;
 
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.MoviesJsonUtils;
+import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkStateReceiver;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.adapters.MovieListAdapter;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.listeners.MovieClickListener;
@@ -25,8 +29,11 @@ import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.objects.MovieOb
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView movie_list_recycler_view;
+    private TextView no_internet_text_view;
     private MovieListAdapter mAdapter;
     private ArrayList<MovieObject> movies_list;
+
+    private String selectedApi = "popular";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +41,45 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findViews(this);
         setAdapter(this);
-        loadMoviesData(this,"popular");
+        if(NetworkUtils.isNetworkAvailable(this)) {
+            selectedApi = "popular";
+            // Will be called from networkAvailable Function
+            //  loadMoviesData(this, selectedApi);
+        }
+        else
+        {
+            movie_list_recycler_view.setVisibility(View.GONE);
+            no_internet_text_view.setVisibility(View.VISIBLE);
+        }
+        addNetworkStateReceiver(this);
+    }
+
+    private void addNetworkStateReceiver(final Activity act)
+    {
+        NetworkStateReceiver networkStateReceiver = new NetworkStateReceiver();
+        networkStateReceiver.addListener(new NetworkStateReceiver.NetworkStateReceiverListener() {
+            @Override
+            public void networkAvailable() {
+                movie_list_recycler_view.setVisibility(View.VISIBLE);
+                no_internet_text_view.setText(R.string.no_internet);
+                no_internet_text_view.setVisibility(View.GONE);
+                loadMoviesData(act,selectedApi);
+            }
+
+            @Override
+            public void networkUnavailable() {
+                movie_list_recycler_view.setVisibility(View.GONE);
+                no_internet_text_view.setText(R.string.no_internet);
+                no_internet_text_view.setVisibility(View.VISIBLE);
+            }
+        });
+        act.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
     }
 
     private void findViews(Activity act)
     {
         movie_list_recycler_view = (RecyclerView) act.findViewById(R.id.movie_list_recycler_view);
+        no_internet_text_view = (TextView) act.findViewById(R.id.no_internet_text_view);
     }
 
     private void setAdapter(final Activity act)
@@ -110,7 +150,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<MovieObject> moviesData) {
-            mAdapter.setMoviesData(moviesData);
+            if(moviesData == null)
+                no_internet_text_view.setText(R.string.api_error);
+            else
+                mAdapter.setMoviesData(moviesData);
         }
     }
 
@@ -136,11 +179,13 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0)
                     {
-                        loadMoviesData(act,"popular");
+                        selectedApi = "popular";
+                        loadMoviesData(act,selectedApi);
                     }
                     else
                     {
-                        loadMoviesData(act,"top_rated");
+                        selectedApi = "top_rated";
+                        loadMoviesData(act,selectedApi);
                     }
                 }
             });

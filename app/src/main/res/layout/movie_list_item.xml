@@ -7,5 +7,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/movie_poster"/>
+        android:id="@+id/movie_poster"
+        android:minHeight="430dp"
+        android:minWidth="286dp"/>
 </LinearLayout>

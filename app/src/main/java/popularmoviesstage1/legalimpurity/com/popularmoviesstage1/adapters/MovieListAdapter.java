@@ -50,6 +50,8 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     @Override
     public int getItemCount() {
+        if(movieObjs == null)
+            return 0;
         return movieObjs.size();
     }
 
@@ -71,7 +73,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
                     clicker.onMovieCLick(mo);
                 }
             });
-            Picasso.with(act).load(NetworkUtils.MOVIES_IMAGE_URL+mo.getMoviePosterImageThumbnailUrl()).into(posterImage);
+            Picasso
+                    .with(act)
+                    .load(NetworkUtils.MOVIES_IMAGE_URL+mo.getMoviePosterImageThumbnailUrl())
+                    .placeholder(R.drawable.ic_local_movies_grey_24dp)
+                    .into(posterImage);
         }
     }
 }
