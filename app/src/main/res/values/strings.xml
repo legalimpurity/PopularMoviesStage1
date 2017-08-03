@@ -12,5 +12,5 @@
     <string name="shared_from_themoviedb">\nShared from TheMovieDBApp. Check us out at themoviedb.org</string>
     <string name="shared_subject">Shared from TheMovieDBApp.</string>
     <string name="no_internet">Please connect to the internet to continue.</string>
-    <string name="api_error">The API gave an error, please try again later.</string>
+    <string name="api_error">The was an error, please try again later.</string>
 </resources>

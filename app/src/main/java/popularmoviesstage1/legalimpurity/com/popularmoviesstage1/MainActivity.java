@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,15 +16,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import java.net.URL;
 import java.util.ArrayList;
 
-import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.MoviesJsonUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkStateReceiver;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.adapters.MovieListAdapter;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.listeners.MovieClickListener;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.objects.MovieObject;
+import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.tasks.FetchMoviesTask;
+import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.tasks.callbacks.MovieApiRespondedBack;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -84,7 +84,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void setAdapter(final Activity act)
     {
-        RecyclerView.LayoutManager moviesLayoutManager = new GridLayoutManager(act,2);
+        int numberOfColumns = 2;
+        if(act.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            numberOfColumns = 2;
+        }
+        else{
+            numberOfColumns = 4;
+        }
+        RecyclerView.LayoutManager moviesLayoutManager = new GridLayoutManager(act,numberOfColumns);
         movie_list_recycler_view.setLayoutManager(moviesLayoutManager);
 
         movie_list_recycler_view.setHasFixedSize(true);
@@ -118,44 +125,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMoviesData(Activity act, String sort_by) {
-        new FetchMoviesTask().execute(act,sort_by);
+
+        MovieApiRespondedBack responder = new MovieApiRespondedBack() {
+            @Override
+            public void onApiResponded(ArrayList<MovieObject> response) {
+                if(response == null)
+                {
+                    no_internet_text_view.setText(R.string.api_error);
+                    no_internet_text_view.setVisibility(View.VISIBLE);
+                }
+                else
+                    mAdapter.setMoviesData(response);
+            }
+        };
+        new FetchMoviesTask().execute(act,sort_by,responder);
     }
 
-    private class FetchMoviesTask extends AsyncTask<Object, Void, ArrayList<MovieObject>> {
-
-        private Activity act;
-        private ArrayList<MovieObject> output;
-        @Override
-        protected ArrayList<MovieObject> doInBackground(Object... params) {
-
-            if (params.length == 0) {
-                return null;
-            }
-
-            String sortByParam =(String) params[1];
-            act = (Activity) params[0];
-            URL sortByRequestUrl = NetworkUtils.buildSortByUrl(sortByParam);
-
-            try {
-                String jsonMoviesResponse = NetworkUtils
-                        .getResponseFromHttpUrl(sortByRequestUrl);
-                output = MoviesJsonUtils.getMovieObjectsFromJson(act,jsonMoviesResponse);
-                return output;
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(ArrayList<MovieObject> moviesData) {
-            if(moviesData == null)
-                no_internet_text_view.setText(R.string.api_error);
-            else
-                mAdapter.setMoviesData(moviesData);
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
