@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PopularMoviesStage1</string>
+    <string name="app_name">TheMovieDBApp</string>
     <string name="change_sort_order">Change Sort Order</string>
     <string name="pick_an_order">Pick an Sorting Order</string>
     <string name="most_popular">Most Popular</string>

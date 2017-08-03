@@ -16,7 +16,7 @@ public final class NetworkUtils {
 
     // Get your own from www.themoviedb.org
 //    final static String API_KEY_VALUE = "ENTER_YOUR_API_KEY_HERE";
-    private final static String API_KEY_VALUE = "1e1cf0678668ce8fc897c9f96a5078c9";
+    private final static String API_KEY_VALUE = "";
 
 
     private final static String API_KEY = "api_key";

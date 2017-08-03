@@ -7,6 +7,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_movie_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(getIntent() != null && getIntent().getExtras() != null) {
             mo = (MovieObject) getIntent().getExtras().getParcelable(MOVIE_OBJECT_KEY);
         }
@@ -89,6 +90,18 @@ public class MovieDetailActivity extends AppCompatActivity {
                 act.startActivity(Intent.createChooser(intent, act.getResources().getString(R.string.app_name)));
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == android.R.id.home) {
+                this.finish();
+            return true;
+        }
+        super.onOptionsItemSelected(item);
+        return true;
     }
 
 }
