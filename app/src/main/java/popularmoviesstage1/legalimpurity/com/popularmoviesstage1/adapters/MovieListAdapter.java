@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.R;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkUtils;
+import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.listeners.MovieClickListener;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.objects.MovieObject;
 
 
@@ -20,11 +21,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
 
     private ArrayList<MovieObject> movieObjs;
     private Activity act;
+    private MovieClickListener clicker;
 
-    public MovieListAdapter(Activity act, ArrayList<MovieObject> movieObjs)
+    public MovieListAdapter(Activity act, ArrayList<MovieObject> movieObjs, MovieClickListener clicker)
     {
         this.movieObjs = movieObjs;
         this.act = act;
+        this.clicker = clicker;
     }
 
     public void setMoviesData(ArrayList<MovieObject> movieObjs)
@@ -60,8 +63,14 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
             posterImage = (ImageView) itemView.findViewById(R.id.movie_poster);
         }
 
-        void bind(MovieObject mo)
+        void bind(final MovieObject mo)
         {
+            posterImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clicker.onMovieCLick(mo);
+                }
+            });
             Picasso.with(act).load(NetworkUtils.MOVIES_IMAGE_URL+mo.getMoviePosterImageThumbnailUrl()).into(posterImage);
         }
     }

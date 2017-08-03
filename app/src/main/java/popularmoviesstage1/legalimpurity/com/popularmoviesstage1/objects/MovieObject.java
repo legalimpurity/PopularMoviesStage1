@@ -1,10 +1,13 @@
 package popularmoviesstage1.legalimpurity.com.popularmoviesstage1.objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by rajatkhanna on 01/08/17.
  */
 
-public class MovieObject {
+public class MovieObject implements Parcelable {
     private String OrignalTitle;
     private String MoviePosterImageThumbnailUrl;
     private String PlotSynopsis;
@@ -58,4 +61,45 @@ public class MovieObject {
     public void setReleaseDate(Long releaseDate) {
         ReleaseDate = releaseDate;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(new String[] {
+                this.OrignalTitle,
+                this.MoviePosterImageThumbnailUrl,
+                this.PlotSynopsis,
+                this.UserRating
+        });
+
+        dest.writeLong(ReleaseDate);
+
+    }
+
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public MovieObject createFromParcel(Parcel in) {
+            return new MovieObject(in);
+        }
+
+        public MovieObject[] newArray(int size) {
+            return new MovieObject[size];
+        }
+    };
+
+    public MovieObject(Parcel in){
+        String[] data = new String[4];
+
+        in.readStringArray(data);
+        this.OrignalTitle = data[0];
+        this.MoviePosterImageThumbnailUrl = data[1];
+        this.PlotSynopsis = data[2];
+        this.UserRating = data[3];
+
+        ReleaseDate = in.readLong();
+    }
+
 }

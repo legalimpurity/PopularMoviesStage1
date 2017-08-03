@@ -11,23 +11,19 @@ import java.util.Scanner;
 
 public final class NetworkUtils {
 
-    private static final String MOVIE_DATABASE_ROOT_URL = "https://api.themoviedb.org/3/";
+    private static final String MOVIE_DATABASE_ROOT_URL = "https://api.themoviedb.org/3/movie/";
     public static final String MOVIES_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
-
-    private static final String POPULAR_MOVIES_URL = MOVIE_DATABASE_ROOT_URL + "discover/movie";
 
     // Get your own from www.themoviedb.org
 //    final static String API_KEY_VALUE = "ENTER_YOUR_API_KEY_HERE";
-    private final static String API_KEY_VALUE = "";
+    private final static String API_KEY_VALUE = "1e1cf0678668ce8fc897c9f96a5078c9";
 
 
     private final static String API_KEY = "api_key";
-    private final static String SORT_BY = "sort_by";
 
-    public static URL buildSortByUrl(String sortBy) {
-        Uri builtUri = Uri.parse(POPULAR_MOVIES_URL).buildUpon()
+    public static URL buildSortByUrl(String appendingUrl) {
+        Uri builtUri = Uri.parse(MOVIE_DATABASE_ROOT_URL+appendingUrl).buildUpon()
                 .appendQueryParameter(API_KEY, API_KEY_VALUE)
-                .appendQueryParameter(SORT_BY, sortBy)
                 .build();
 
         URL url = null;

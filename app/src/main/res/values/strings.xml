@@ -4,4 +4,6 @@
     <string name="pick_an_order">Pick an Sorting Order</string>
     <string name="most_popular">Most Popular</string>
     <string name="highest_rated">Highest Rated</string>
+    <string name="title_activity_movie_detail">MovieDetailActivity</string>
+    <string name="action_settings">Settings</string>
 </resources>

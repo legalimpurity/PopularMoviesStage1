@@ -2,6 +2,7 @@ package popularmoviesstage1.legalimpurity.com.popularmoviesstage1;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.MoviesJsonUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.adapters.MovieListAdapter;
+import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.listeners.MovieClickListener;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.objects.MovieObject;
 
 public class MainActivity extends AppCompatActivity {
@@ -32,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findViews(this);
         setAdapter(this);
-        loadMoviesData(this,"popularity.desc");
+        loadMoviesData(this,"popular");
     }
 
     private void findViews(Activity act)
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         movie_list_recycler_view = (RecyclerView) act.findViewById(R.id.movie_list_recycler_view);
     }
 
-    private void setAdapter(Activity act)
+    private void setAdapter(final Activity act)
     {
         RecyclerView.LayoutManager moviesLayoutManager = new GridLayoutManager(act,2);
         movie_list_recycler_view.setLayoutManager(moviesLayoutManager);
@@ -49,7 +51,16 @@ public class MainActivity extends AppCompatActivity {
 
 //        movies_list = dummyData();
         movies_list = new ArrayList<MovieObject>();
-        mAdapter = new MovieListAdapter(act,movies_list);
+        mAdapter = new MovieListAdapter(act,movies_list, new MovieClickListener() {
+            @Override
+            public void onMovieCLick(MovieObject movieItem) {
+                Intent movieDetailActivityClickIntent = new Intent(act,MovieDetailActivity.class);
+                Bundle extras = new Bundle();
+                extras.putParcelable(MovieDetailActivity.MOVIE_OBJECT_KEY,movieItem);
+                movieDetailActivityClickIntent.putExtras(extras);
+                act.startActivity(movieDetailActivityClickIntent);
+            }
+        });
 
         movie_list_recycler_view.setAdapter(mAdapter);
 
@@ -125,11 +136,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int which) {
                     if(which==0)
                     {
-                        loadMoviesData(act,"popularity.desc");
+                        loadMoviesData(act,"popular");
                     }
                     else
                     {
-                        loadMoviesData(act,"vote_average.desc");
+                        loadMoviesData(act,"top_rated");
                     }
                 }
             });
