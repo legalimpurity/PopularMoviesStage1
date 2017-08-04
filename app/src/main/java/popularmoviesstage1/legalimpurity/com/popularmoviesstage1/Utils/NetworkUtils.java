@@ -21,7 +21,6 @@ public final class NetworkUtils {
     public static final String MOVIES_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
 
     // Get your own from www.themoviedb.org
-//    final static String API_KEY_VALUE = "ENTER_YOUR_API_KEY_HERE";
     private final static String API_KEY_VALUE = BuildConfig.THE_MOVIE_DB_API_TOKEN;
 
 

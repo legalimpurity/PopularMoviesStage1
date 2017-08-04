@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.objects.MovieObject;
 
@@ -21,16 +23,23 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     public static final String MOVIE_OBJECT_KEY = "0a46c76c98b80b4ed6befbe3760b28b1";
 
+
+    @BindView(R.id.movie_poster) ImageView movie_poster;
+    @BindView(R.id.toolbar_layout) CollapsingToolbarLayout toolbar_layout;
+    @BindView(R.id.textViewReleaseDateValue) TextView textViewReleaseDateValue;
+    @BindView(R.id.textViewVoteAverageValue) TextView textViewVoteAverageValue;
+    @BindView(R.id.textViewPlotSynopsisValue) TextView textViewPlotSynopsisValue;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.fab) FloatingActionButton fab;
+
     private MovieObject mo;
-    private ImageView movie_poster;
-    private CollapsingToolbarLayout toolbar_layout;
-    private TextView textViewReleaseDateValue, textViewVoteAverageValue, textViewPlotSynopsisValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if(getIntent() != null && getIntent().getExtras() != null) {
@@ -42,12 +51,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void setView(Activity act)
     {
-        movie_poster = (ImageView)act.findViewById(R.id.movie_poster);
-        toolbar_layout = (CollapsingToolbarLayout)act.findViewById(R.id.toolbar_layout);
-        textViewReleaseDateValue = (TextView) act.findViewById(R.id.textViewReleaseDateValue);
-        textViewVoteAverageValue = (TextView) act.findViewById(R.id.textViewVoteAverageValue);
-        textViewPlotSynopsisValue = (TextView) act.findViewById(R.id.textViewPlotSynopsisValue);
-
         Picasso.with(act).load(NetworkUtils.MOVIES_IMAGE_URL+mo.getMoviePosterImageThumbnailUrl()).into(movie_poster);
 
         toolbar_layout.setTitle(mo.getOrignalTitle());
@@ -59,7 +62,6 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void setFab(final Activity act)
     {
-        FloatingActionButton fab = (FloatingActionButton) act.findViewById(R.id.fab);
 
         String sharer_content = "";
 

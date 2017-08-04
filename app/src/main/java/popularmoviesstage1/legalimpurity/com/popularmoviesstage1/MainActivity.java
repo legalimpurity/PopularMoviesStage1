@@ -18,6 +18,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkStateReceiver;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.Utils.NetworkUtils;
 import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.adapters.MovieListAdapter;
@@ -28,8 +30,10 @@ import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.tasks.callbacks
 
 public class MainActivity extends AppCompatActivity {
 
-    private RecyclerView movie_list_recycler_view;
-    private TextView no_internet_text_view;
+    @BindView(R.id.movie_list_recycler_view) RecyclerView movie_list_recycler_view;
+    @BindView(R.id.no_internet_text_view) TextView no_internet_text_view;
+
+
     private MovieListAdapter mAdapter;
     private ArrayList<MovieObject> movies_list;
 
@@ -39,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         findViews(this);
         setAdapter(this);
         if(NetworkUtils.isNetworkAvailable(this)) {
