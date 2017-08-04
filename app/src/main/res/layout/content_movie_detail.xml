@@ -26,7 +26,8 @@
 
         <TextView
             android:id="@+id/textViewReleaseDateValue"
-            style="@style/TextViewMovieDetailItemValue"/>
+            style="@style/TextViewMovieDetailItemValue"
+            tools:text="@string/content_sample_release_date"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -35,11 +36,12 @@
         <TextView
             android:id="@+id/textViewVoteAverage"
             style="@style/TextViewMovieDetailItemHeader"
-            android:text="@string/vote_average"/>
+            android:text="@string/vote_average" />
 
         <TextView
             android:id="@+id/textViewVoteAverageValue"
-            style="@style/TextViewMovieDetailItemValue"/>
+            style="@style/TextViewMovieDetailItemValue"
+            tools:text="@string/content_sample_vote_average"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +54,8 @@
 
         <TextView
             android:id="@+id/textViewPlotSynopsisValue"
-            style="@style/TextViewMovieDetailItemValue"/>
+            style="@style/TextViewMovieDetailItemValue"
+            tools:text="@string/content_sample_synopsis"/>
 
     </LinearLayout>
 
