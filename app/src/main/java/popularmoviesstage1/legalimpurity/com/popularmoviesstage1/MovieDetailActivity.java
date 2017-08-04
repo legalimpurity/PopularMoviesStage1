@@ -50,7 +50,10 @@ public class MovieDetailActivity extends AppCompatActivity {
 
     private void setView(Activity act)
     {
-        Picasso.with(act).load(NetworkUtils.MOVIES_IMAGE_URL+mo.getMoviePosterImageThumbnailUrl()).into(movie_poster);
+        Picasso.with(act)
+                .load(NetworkUtils.MOVIES_IMAGE_URL+mo.getMoviePosterImageThumbnailUrl())
+                .placeholder(R.drawable.ic_local_movies_grey_24dp)
+                .into(movie_poster);
 
         toolbar_layout.setTitle(mo.getOrignalTitle());
 

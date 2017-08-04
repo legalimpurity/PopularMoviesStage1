@@ -18,7 +18,7 @@ import popularmoviesstage1.legalimpurity.com.popularmoviesstage1.BuildConfig;
 public final class NetworkUtils {
 
     private static final String MOVIE_DATABASE_ROOT_URL = "https://api.themoviedb.org/3/movie/";
-    public static final String MOVIES_IMAGE_URL = "https://image.tmdb.org/t/p/w500/";
+    public static final String MOVIES_IMAGE_URL = "https://image.tmdb.org/t/p/w185/";
 
     // Get your own from www.themoviedb.org
     private final static String API_KEY_VALUE = BuildConfig.THE_MOVIE_DB_API_TOKEN;
