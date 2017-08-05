@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void networkUnavailable() {
-                movie_list_recycler_view.setVisibility(View.GONE);
-                no_internet_text_view.setText(R.string.no_internet);
-                no_internet_text_view.setVisibility(View.VISIBLE);
+//                movie_list_recycler_view.setVisibility(View.GONE);
+//                no_internet_text_view.setText(R.string.no_internet);
+//                no_internet_text_view.setVisibility(View.VISIBLE);
             }
         });
         act.registerReceiver(networkStateReceiver, new IntentFilter(android.net.ConnectivityManager.CONNECTIVITY_ACTION));
